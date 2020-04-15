@@ -79,16 +79,24 @@
 		            </div>						
 				</div>
 				<style>
-					.video {
-						width:100%;
-						margin: 0 auto;
-						text-align: center;
-					}
-				</style>
-				<div class="video">
-					<video width="1280" height="720" controls>
-						<source src="video/SuperCop Tistie and the notorious hacker.mp4" type="video/mp4">
-					</video>
+					.iframe-container{
+						position: relative;
+						width: 100%;
+						padding-bottom: 56.25%; 
+						height: 0;
+					  margin: 0 auto;
+					  text-align: center;
+  }
+					  .iframe-container iframe{
+						position: absolute;
+					   top:0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+					  }
+					</style>
+				<div class="iframe-container">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/zqVqSPbgOnM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</section>
 			<!-- End services Area -->				
