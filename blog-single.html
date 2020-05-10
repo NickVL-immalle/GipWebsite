@@ -971,78 +971,153 @@
 							</div>
 							
 							<div class="container">
+								<p style = "color:black"style="font-family: Arial, Helvetica, sans-serif;">
+
+									Als laatste gipopdracht moest ik voor Informatica een Testopstelling maken en testen. Een testopstelling wordt in bedrijven gebruikt om een netwerk te testen in een virtuele omgeving (met virtuele machines) voordat dit in het echt gebouwd wordt. Voor deze opdracht is het de bedoeling dat ik meer te weten kom over hoe een router geconfigureerd moet worden om een netwerk goed te laten functioneren (bv. dat alle hosts toegang krijgen tot het Internet). Dit zijn de testopstellingen die ik heb gemaakt
+
+								</p><br><br>
+							</div>
+
+							<div class="container">
 								<h3 style="font-family: Arial, Helvetica, sans-serif;">Test met subnetmaskers</h3><br><br>
 								<p style = "color:black"style="font-family: Arial, Helvetica, sans-serif;">
 									Om te beginnen heb ik bij het maken van de testopstelling een experiment uitgevoerd met de subnetmaskers van een virtuele server (met IP-adres 192.168.9.1) en desktop (met IP-adres 192.168.10.10) die met elkaar verbonden zijn via een interne virtuele switch.<br><br>
 			
 									Eerst heb ik de IP-adressen van de twee VM’s een /16 subnetmasker gegeven. Dit werkte perfect.<br><br>
 			
-									<img class="img-fluid" src="img/Bestanden_overzetten_screenshot1.png" alt=""><br><br><br><br>
+									<img class="img-fluid" src="img/pfsense_screen1.png" alt=""><br><br><br>
 			
-									<a href="https://www.makeuseof.com/tag/how-to-change-the-boot-order-on-your-pc-so-you-can-boot-from-usb/">Bron naar informatie over hoe je van een flash USB drive boot</a><br><br>
-			
-									Ik heb de Universal USB Installer gebruikt om Linux erop te installeren via een andere laptop. De Linux-distributie die ik heb gebruikt is Linux Mint. Het is een versie van Linux die lijkt op Windows dus het is gemakkelijk te gebruiken. De verkenner werkt exact hetzelfde dus het zal gemakkelijk zijn om de bestanden te recupereren.<br><br>
-			
+									Hierna heb ik het subnetmasker van de server veranderd naar /24 en hierbij kon ik niet pingen.<br><br>
+		
+									<img class="img-fluid" src="img/pfsense_screen2.png" alt=""><br><br><br>
 									
-									<img class="img-fluid" src="img/Bestanden_overzetten_screenshot1.png" alt=""><br><br>
-									
+									<b>Conclusie:</b> Als er enkel verbinding is tussen de machines via switches is in dit geval geen verbinding mogelijk met een /24 subnetmasker omdat de twee IP-adressen niet in dezelfde IP-range zitten. Om dit wel te laten werken met /24 zouden de IP-adressen 3 groepen bits gemeenschappelijk moeten hebben --> hier zijn dat er maar 2 dus werkt het niet.
 
-									Nu zal ik Linux moeten booten op de computer waar de bestanden opstaan met F9 door de schijf aan te duiden waar Linux opstaat via het bootmenu.<br><br>
 
-									De bestanden in de map Groep Van Roey nv moeten gekopieerd worden naar de USB. Dit is de file explorer van Linux<br><br>
-
-									<img class="img-fluid" src="img/Bestanden_overzetten_screenshot2.png" alt=""><br><br>
-
-									De bestanden worden gekopieerd naar de USB flash drive.<br><br>
-
-									<img class="img-fluid" src="img/Bestanden_overzetten_screenshot3.png" alt=""><br><br>
-
-									We hebben de bestanden gerecupereerd.
 								</p><br><br>
 							</div>
 
 							<div class="container">
-								<h3 style="font-family: Arial, Helvetica, sans-serif;">Backup maken van user files</h3><br><br>
+								<h3 style="font-family: Arial, Helvetica, sans-serif;">Configuratie pfSense en verbinding met LokNet</h3><br><br>
 								<p style = "color:black"style="font-family: Arial, Helvetica, sans-serif;">
-									In het bedrijf vroegen ze me om een manier te zoeken om een backup te maken van persoonlijke gebruikersinstellingen van werknemers bij Van Roey (zoals favorieten, taakbalkinstellingen, etc).<br><br>
-			
-									<a href="https://www.addictivetips.com/windows-tips/back-up-a-user-profile-windows-10/">Bron naar informatie over hoe je een user profile back-upt.</a><br><br>
-			
-									<a href="https://www.windowscentral.com/how-backup-start-menu-layout-windows-10">Bron naar informatie over hoe je het start menu back-upt.</a><br><br>
-			
-									Mogelijkheden: onedrive, externe schijf?<br><br>
 
-									<a href="https://www.ubackup.com/synchronization/backup-user-folder-to-onedrive-6988.html">Bron naar informatie over hoe je iets automatisch back-upt naar onedrive.</a><br><br>
-			
-									<b>Oplossing 1:</b> manueel backup maken van user files via Onedrive<br><br>
+									Ik heb de virtuele router pfSense geconfigureerd en geprobeerd om zowel LokNet als LokServ ermee te kunnen verbinden. Dit is momenteel enkel gelukt met LokNet.<br><br>
 
-									<img class="img-fluid" src="img/Backup_Screenshot1.png" alt=""><br><br>
+									De volgende opstelling heb ik kunnen testen en werkt perfect.<br><br>
 
-									<img class="img-fluid" src="img/Backup_screenshot2.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen3.png" alt=""><br><br><br>
+
+									De pfSense router heeft 2 NIC’s. De ene is verbonden met de interne switch van LokNet en de andere met een externe switch WAN switch.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen4.png" alt=""><br><br><br>
+
+									pfSense is verbonden met het internet via de externe switch (WAN) en heeft verbinding met de interne switch van LokNet (LAN).<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen5.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen6.png" alt=""><br><br><br>
+
+									LokNet heeft het ip-adres 192.168.10.10/24 van de DHCP server gekregen.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen7.png" alt=""><br><br><br>
+
+									LokNet heeft internetverbinding via de pfSense router dus de testopstelling met enkel LokNet is gelukt.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen8.png" alt="">
+
+								</p><br><br>
+							</div>
+
+							<div class="container">
+								<h3 style="font-family: Arial, Helvetica, sans-serif;">Verbinding tussen LokNet, LokServ en pfSense</h3><br><br>
+								<p style = "color:black"style="font-family: Arial, Helvetica, sans-serif;">
+								
+									Na lang zoeken is het me eindelijk gelukt om zowel LokNet als LokServ te voorzien van internet via de pfSense router.<br><br>
 									
-									<u style="color: black;">AOMEI voor automatische back-ups</u><br><br>
+									Volgende testopstelling heb ik kunnen waarmaken. Zowel LokNet als LokServ hebben internet en kunnen met elkaar communiceren via pfSense.<br><br>
 
-									<b>Oplossing 2:</b> automatische back-ups laten maken door back-up programma<br><br>
-									
-									<img class="img-fluid" src="img/Backup_screenshot3.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen9.png" alt=""><br><br><br>
 
-									<u style="color: black;">Stap 1</u><br><br>
+									<img class="img-fluid" src="img/pfsense_screen10.png" alt="">
 
-									<img class="img-fluid" src="img/Backup_screenshot4.png" alt=""><br><br>
+									Een derde NIC is aangesloten aan de router van pfSense en staat in verbinding met de switch van LokServ.<br><br><br>
 
-									<u style="color: black;">Stap 2</u><br><br>
+									pfSense is nu ook verbonden met de interne switch van LokServ (OPT1).<br><br>
 
-									<img class="img-fluid" src="img/Backup_screenshot5.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen11.png" alt="">
 
-									<u style="color: black;">Stap 3</u><br><br>
+									Ik heb een bridge interface (BR0) gecreëerd tussen LAN en OPT1.<br><br>
 
-									<img class="img-fluid" src="img/Backup_screenshot6.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen12.png" alt=""><br><br>
 
-									<u style="color: black;">Stap 4</u><br><br>
-									
-									<img class="img-fluid" src="img/Backup_screenshot7.png" alt=""><br><br>
+									<img class="img-fluid" src="img/pfsense_screen13.png" alt=""><br><br><br>
 
-									Ik test of een andere laptop bepaalde Microsoft user data overneemt als ik de data overplaats naar de andere laptop zijn Appdata. Dit is het geval dus het is een goede manier om geregeld back-ups te maken van user files.
+									Hierna heb ik een interface group gemaakt voor de LAN firewall rules hierin zitten LAN, OPT1 en de bridge (BR0) tussen hen.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen14.png" alt=""><br><br><br>
+
+									Hierna heb ik een firewall rule toegevoegd zodat er dataverkeer mogelijk is tussen de interfaces van de interface group.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen15.png" alt=""><br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen16.png" alt="">
+
+									<img class="img-fluid" src="img/pfsense_screen17.png" alt=""><br><br><br>
+
+									Omdat LokServ nu ook verbonden is met pfSense heeft deze nu ook een IP-adres van de DHCP server gekregen, namelijk 192.168.9.10/24.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen18.png" alt=""><br><br><br>
+
+									Zoals je kan zien heeft LokServ nu ook verbinding met het internet via pfSense en kunnen 
+									LokNet en LokServ met elkaar communiceren. Dit wil zeggen dat de testopstelling werkt.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen19.png" alt="">
+
+								</p><br><br>
+							</div>
+
+							<div class="container">
+								<h3 style="font-family: Arial, Helvetica, sans-serif;">Toevoegen van publieke webserver aan pfSense netwerk</h3><br><br>
+								<p style = "color:black"style="font-family: Arial, Helvetica, sans-serif;">
+									Ik heb nu geprobeerd om ook een publieke Webserver (PubServ) in ons netwerk toe te voegen.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen20.png" alt="">
+
+									Een vierde NIC die verbonden staat met de switch van PubServ is toegevoegd aan de pfSense router.<br><br><br>
+
+									Ik heb van PubServ een webserver gemaakt met de Server Manager.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen21.png" alt=""><br><br><br>
+
+									De DHCP-server van pfSense heeft de webserver het IP-adres 192.168.7.10/24 gegeven.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen22.png" alt=""><br><br><br>
+
+									Ik heb een NAT Port Forward firewall rule toegevoegd om PubServ bereikbaar te maken 
+									via het internet als de website die daadwerkelijk gepubliceerd zou worden.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen23.png" alt=""><br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen24.png" alt="">
+									<img class="img-fluid" src="img/pfsense_screen25.png" alt=""><br><br><br>
+
+									Als we nu bij de Firewall rules kijken van WAN zien we dat er automatisch een Firewall rule 
+									aangemaakt is voor de aangemaakte NAT door pfSense.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen26.png" alt=""><br><br><br>
+
+									Door de Port te testen via Diagnostics kan je zien dat de Port geopend is en deze zal werken als de site daadwerkelijk gepubliceerd zou worden.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen27.png" alt=""><br><br><br>
+
+									Door nog firewall rules toe te voegen voor PubServ (OPT3) heb ik deze ook internet 
+									connectie gegeven.<br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen28.png" alt=""><br><br>
+
+									<img class="img-fluid" src="img/pfsense_screen29.png" alt=""><br><br><br>
+
+									Met deze ruleset in pfSense zou, als een website op PubServ daadwerkelijk gepubliceerd zou worden, deze nu bereikbaar via het internet moeten zijn. (Ik heb niet echt een website gepubliceerd omdat je daar eerst een domein voor moet aanvragen).
+
 								</p>
 							</div>
 						</section>
